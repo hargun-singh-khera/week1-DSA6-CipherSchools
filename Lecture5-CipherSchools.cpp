@@ -1,28 +1,55 @@
-#include<bits/stdc++.h>
+
+#include <bits/stdc++.h>
 using namespace std;
 
-int rainWater(vector<int>& heights) {
-    int n = heights.size();
+vector<int> spiralMatrix(vector<vector<int>> mat)
+{
+    int sx = 0, sy = 0, ex = mat.size() - 1, ey = mat[0].size() - 1;
+    vector<int> result(mat.size() * mat[0].size());
+    int ctr = 0;
+    while (sx <= ex && sy <= ey)
+    {
+        for (int j = sy; j <= ey; j++)
+        {
+            result[ctr++] = mat[sx][j];
+        }
+        sx++;
 
-    vector<int>lmax(n),rmax(n);
-    lmax[0]= heights[0];
-    rmax[n-1]=heights[n-1];
+        for (int i = sx; i <= ex; i++)
+        {
+            result[ctr++] = mat[i][ey];
+        }
+        ey--;
 
-    for(int i = 1;i<n;i++){
-        lmax[i] = max(heights[i], lmax[i-1]);
-        rmax[n-i-1] = max(heights[n-i-1], rmax[n-i]);
+        if (sx <= ex)
+        {
+            for (int j = ey; j >= sy; j--)
+            {
+                result[ctr++] = mat[ex][j];
+            }
+            ex--;
+        }
+
+        if (sy <= ey)
+        {
+            for (int i = ex; i >= sx; i--)
+            {
+                result[ctr++] = mat[i][sy];
+            }
+            sy++;
+        }
     }
-    int water = 0;
-    for(int i = 1;i<n;i++){
-        water += min(lmax[i], rmax[i]) - heights[i];
-    }
-    return water;
+    return result;
 }
 
-int main() {
-    vector<int> heights = {2,3,5,1,2,8,1,2};
-
-    int trappedWater = rainWater(heights);
-
-    cout << "Trapped Water: " << trappedWater << endl;
+int main()
+{
+    vector<vector<int>> mat = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    vector<int> result = spiralMatrix(mat);
+    for (int num : result)
+    {
+        cout << num << " ";
+    }
+    cout << endl;
+    return 0;
 }

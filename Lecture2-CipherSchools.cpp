@@ -1,75 +1,38 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-int firstOccurence(vector<int> &nums, int start, int end, int target)
-{
-    if(start > end) return -1;
-    else if(start==end) {
-        return (nums[start]==target?start:-1);
-    }
-    else {
-        int mid = start + (end - start) / 2;
-        if (nums[mid] < target)
-        {
-            return firstOccurence(nums,mid+1,end,target);
-        }
-        else if (nums[mid] > target)
-        {
-            return firstOccurence(nums,start,mid-1,target);
-
-        }
-        else
-        {
-            if((mid==0) && (mid>=1 && nums[mid-1]<nums[mid])) {
-                return mid;
+// pass by value/pass by reference
+void mergeSortedArrays(vector<int> &a, int m , vector<int> &b, int n){
+     int i = m - 1, j = n - 1, k = m + n - 1;
+        while (i >= 0 && j >= 0) {
+            if (a[i] > b[j]) {
+                a[k] = a[i];
+                k--;
+                i--;
+            } else {
+                a[k] = b[j];
+                k--;
+                j--;
             }
-            return firstOccurence(nums,start,mid-1,target);
         }
-    }
+        while (j >= 0) {
+            a[k] = b[j];
+            k--;
+            j--;
+        }
 }
-
-int lastOccurence(vector<int> &nums, int start, int end, int target)
-{
-    if(start > end) return -1;
-    else if(start==end) {
-        return (nums[start]==target?start:-1);
+int main(){
+    
+    vector<int> a = {1, 2, 3, 4, 5, 6, 6};
+    vector<int> b = {2, 5, 6, 8};
+    int m = 3;
+    int n = 3;
+    
+    mergeSortedArrays(a,m,b,n);
+    
+    cout << "After merging: ";
+    for(int i=0;i<a.size();i++) {
+        cout << a[i] << " ";
     }
-    else {
-        int mid = start + (end - start) / 2;
-        if (nums[mid] < target)
-        {
-            return lastOccurence(nums,mid+1,end,target);
-        }
-        else if (nums[mid] > target)
-        {
-            return lastOccurence(nums,start,mid-1,target);
-
-        }
-        else
-        {
-            if((mid==end) || (mid+1<=end && nums[mid]<nums[mid+1])) {
-                return mid;
-            }
-            return lastOccurence(nums,mid+1,end,target);
-        }
-    }
-}
-
-vector<int> firstAndLastOccurrence(vector<int> &nums, int target)
-{
-    int first = firstOccurence(nums, 0, nums.size()-1, target);
-    int second = lastOccurence(nums, first, nums.size()-1, target);
-    return {first, second};
-}
-
-int main() {
-    vector<int> nums = {1, 2, 2, 2, 2, 2, 2, 3, 4, 4, 5, 7};
-    int target = 2;
-
-    vector<int> result = firstAndLastOccurrence(nums, target);
-
-    cout << "First Occurrence: " << result[0] << endl;
-    cout << "Last Occurrence: " << result[1] << endl;
-
-    return 0;
+    cout << endl;
 }

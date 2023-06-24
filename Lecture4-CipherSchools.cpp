@@ -1,63 +1,26 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
- vector<int> spiralMatrix(vector<vector<int>>& matrix) {
+void rotateMatrix(vector<vector<int>>& matrix) {
         int n = matrix.size();
-        int m = matrix[0].size();
-        int left =0 , top = 0, right = m-1, bottom = n-1;
-
-        int direction = 1;
-        vector<int> v;
-        while(left <= right && top <= bottom){
-            if(direction == 1){
-                direction = 2;
-                for(int i=left;i<= right;i++){
-                    v.push_back(matrix[top][i]);
-                }
-                    top++;
-                
-            }
-            else if(direction == 2){
-                direction = 3;
-                for(int i= top; i<= bottom ;i++){
-                    v.push_back(matrix[i][right]);
-                }
-                    right--;
-                
-            }
-            else if(direction == 3){
-                direction = 4;
-                for(int i= right;i>=left;i--){
-                    v.push_back(matrix[bottom][i]);
-                }
-                    bottom--;
-                
-            }
-            else if(direction == 4){
-                direction = 1;
-                for(int i=bottom;i>= top;i--){
-                    v.push_back(matrix[i][left]);
-                }
-                    left++;
-                
+        for(int i=0; i < n; i++){
+            for(int j=0; j<i; j++){
+                swap(matrix[i][j], matrix[j][i]);
             }
         }
-        return v;
+        for(int i=0; i < n; i++){
+            reverse(matrix[i].begin(), matrix[i].end());
+        }
     }
-    int main() {
-    vector<vector<int>> matrix = {
-        {1, 2, 3},
-        {4, 5, 6},
-        {7, 8, 9}
-    };
-
-    vector<int> result = spiralMatrix(matrix);
-
-    cout << "Spiral Order: ";
-    for(int i=0;i<result.size();i++) {
-        cout << result[i] << " ";
+int main(){
+    vector<vector<int>> matrix = {{1,2,3},{4,5,6},{7,8,9}};
+    rotateMatrix(matrix);
+    for(int i=0; i<matrix.size(); i++){
+        for(int j=0; j<matrix[0].size(); j++){
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
     }
-    cout << endl;
-
-    return 0;
 }
